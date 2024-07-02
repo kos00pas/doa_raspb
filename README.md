@@ -53,8 +53,10 @@ source /home/<user>/doa_env/bin/activate
 python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
 ```
 4. For every time 
+```bash
 source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb
 python main.py
+```
 
 
