@@ -25,7 +25,7 @@ sudo apt-get install -y jackd2
 ```bash
 sudo apt install python3-venv
 python3 -m venv doa_env
-source doa_env/bin/activate
+source  /home/<user>/doa_env/bin/activate
 ```
 3. Install Python Packages
 ```bash
@@ -44,3 +44,17 @@ pip install --verbose scikit-learn==1.4.0
 pip install --verbose matplotlib==3.8.2
 pip install --verbose librosa==0.10.1
 ```
+3. For the first time 
+```bash
+sudo apt-get update
+git clone https://github.com/kos00pas/doa_raspb.git
+cd doa_raspb/usb_4_mic_array
+source /home/<user>/doa_env/bin/activate
+python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
+```
+4. For every time 
+source /home/<user>/doa_env/bin/activate
+cd <path_to>/doa_raspb
+python main.py
+
+
