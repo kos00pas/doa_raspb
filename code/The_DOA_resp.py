@@ -1,6 +1,16 @@
 import threading
 import numpy as np
-import time 
+import time
+
+"""
+This class has goal to get DOA from ReSpeaker and plot it.
+For better performance in RaspberryPi we comment the plotting 
+    in order to plot the circular DOA , uncomment 
+                            1. ##self.main_window.axis_doa_resp from that file and  
+                            2. The_Main_Window.py
+"""
+
+
 class The_DOA_resp:
     def __init__(self, database, main_window):
         self.DATA = database

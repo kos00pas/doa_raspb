@@ -9,11 +9,21 @@ import matplotlib.pyplot as plt
 
 class Classification_Window:
     def __init__(self, main_window, database):
+        """
+                Scope:          get access to main window and database
+        """
         self.main_window = main_window
         self.DATA = database
         self.close_mfcc_event = threading.Event()  # Initialize the event
 
     def make_mfcc(self):
+        """
+                Scope:      1. get corresponding data and their details
+                            2. Nomilize data
+                            3. do pad if needed
+                            4. make the mfcc through librosa library
+                            5. call functions to save mfcc and  corresponding signal in .csv format
+        """
         print('making mfcc.....wait')
         time_start = time.time()
         last_second_data = np.concatenate(self.DATA.last_second_c0)
@@ -37,7 +47,7 @@ class Classification_Window:
 
         mfcc = librosa.feature.mfcc(y=normalized_audio, sr=sr, n_mfcc=40, n_fft=2048, hop_length=512, fmax=8000)
         print("Done mfcc")
-        #self.main_window.axis_mfcc.clear()
+        """#self.main_window.axis_mfcc.clear()
         #librosa.display.specshow(mfcc, x_axis='time', ax=self.main_window.axis_mfcc)
         #self.main_window.axis_mfcc.set_ylabel('MFCC')
         #plt.figure(figsize=(10, 4))
@@ -46,6 +56,8 @@ class Classification_Window:
         #plt.title('MFCC')
         #plt.tight_layout()
         #plt.show()
+        """
+
         # Create the directory based on the current time
         the_now_time = time.strftime("%Y-%m-%d_%H-%M-%S")
         base_dir = os.getcwd()
@@ -53,15 +65,7 @@ class Classification_Window:
         os.makedirs(save_dir, exist_ok=True)
 
         # Save the MFCC and signal to CSV
-        self.Save_mfcc_csv(mfcc, save_dir)
-        self.Save_signal_csv(normalized_audio, save_dir)
+        self.DATA.Save_mfcc_csv(mfcc, save_dir)
+        self.DATA.Save_signal_csv(normalized_audio, save_dir)
 
-    def Save_signal_csv(self, normalized_audio, save_dir):
-        full_path = os.path.join(save_dir, "signal.csv")
-        np.savetxt(full_path, normalized_audio, delimiter=',')
-        print(f'Saved: {full_path}')
 
-    def Save_mfcc_csv(self, mfcc, save_dir):
-        full_path = os.path.join(save_dir, "mfcc.csv")
-        np.savetxt(full_path, mfcc, delimiter=',')
-        print(f'Saved: {full_path}')

@@ -163,3 +163,12 @@ class Data_Class:    #   -> database
         # print(valueees)
         self.all_the_parameters.append(valueees)
 
+    def Save_signal_csv(self, normalized_audio, save_dir):
+        full_path = os.path.join(save_dir, "signal.csv")
+        np.savetxt(full_path, normalized_audio, delimiter=',')
+        print(f'Saved: {full_path}')
+
+    def Save_mfcc_csv(self, mfcc, save_dir):
+        full_path = os.path.join(save_dir, "mfcc.csv")
+        np.savetxt(full_path, mfcc, delimiter=',')
+        print(f'Saved: {full_path}')
