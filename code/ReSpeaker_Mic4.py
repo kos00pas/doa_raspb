@@ -12,45 +12,72 @@ USAGE = """Usage: python {} -h
 # parameter list
 # name: (id, offset, type, max, min , r/w, info)
 PARAMETERS = {
-    'AECFREEZEONOFF': (18, 7, 'int', 1, 0, 'rw', 'Adaptive Echo Canceler updates inhibit.', '0 = Adaptation enabled', '1 = Freeze adaptation, filter only'),
+    'AECFREEZEONOFF': (18, 7, 'int', 1, 0, 'rw', 'Adaptive Echo Canceler updates inhibit.', '0 = Adaptation enabled',
+                       '1 = Freeze adaptation, filter only'),
     'AECNORM': (18, 19, 'float', 16, 0.25, 'rw', 'Limit on norm of AEC filter coefficients'),
-    'AECPATHCHANGE': (18, 25, 'int', 1, 0, 'ro', 'AEC Path Change Detection.', '0 = false (no path change detected)', '1 = true (path change detected)'),
+    'AECPATHCHANGE': (18, 25, 'int', 1, 0, 'ro', 'AEC Path Change Detection.', '0 = false (no path change detected)',
+                      '1 = true (path change detected)'),
     'RT60': (18, 26, 'float', 0.9, 0.25, 'ro', 'Current RT60 estimate in seconds'),
-    'HPFONOFF': (18, 27, 'int', 3, 0, 'rw', 'High-pass Filter on microphone signals.', '0 = OFF', '1 = ON - 70 Hz cut-off', '2 = ON - 125 Hz cut-off', '3 = ON - 180 Hz cut-off'),
+    'HPFONOFF': (
+    18, 27, 'int', 3, 0, 'rw', 'High-pass Filter on microphone signals.', '0 = OFF', '1 = ON - 70 Hz cut-off',
+    '2 = ON - 125 Hz cut-off', '3 = ON - 180 Hz cut-off'),
     'RT60ONOFF': (18, 28, 'int', 1, 0, 'rw', 'RT60 Estimation for AES. 0 = OFF 1 = ON'),
-    'AECSILENCELEVEL': (18, 30, 'float', 1, 1e-09, 'rw', 'Threshold for signal detection in AEC [-inf .. 0] dBov (Default: -80dBov = 10log10(1x10-8))'),
-    'AECSILENCEMODE': (18, 31, 'int', 1, 0, 'ro', 'AEC far-end silence detection status. ', '0 = false (signal detected) ', '1 = true (silence detected)'),
+    'AECSILENCELEVEL': (18, 30, 'float', 1, 1e-09, 'rw',
+                        'Threshold for signal detection in AEC [-inf .. 0] dBov (Default: -80dBov = 10log10(1x10-8))'),
+    'AECSILENCEMODE': (
+    18, 31, 'int', 1, 0, 'ro', 'AEC far-end silence detection status. ', '0 = false (signal detected) ',
+    '1 = true (silence detected)'),
     'AGCONOFF': (19, 0, 'int', 1, 0, 'rw', 'Automatic Gain Control. ', '0 = OFF ', '1 = ON'),
-    'AGCMAXGAIN': (19, 1, 'float', 1000, 1, 'rw', 'Maximum AGC gain factor. ', '[0 .. 60] dB (default 30dB = 20log10(31.6))'),
-    'AGCDESIREDLEVEL': (19, 2, 'float', 0.99, 1e-08, 'rw', 'Target power level of the output signal. ', '[-inf .. 0] dBov (default: -23dBov = 10log10(0.005))'),
-    'AGCGAIN': (19, 3, 'float', 1000, 1, 'rw', 'Current AGC gain factor. ', '[0 .. 60] dB (default: 0.0dB = 20log10(1.0))'),
+    'AGCMAXGAIN': (
+    19, 1, 'float', 1000, 1, 'rw', 'Maximum AGC gain factor. ', '[0 .. 60] dB (default 30dB = 20log10(31.6))'),
+    'AGCDESIREDLEVEL': (19, 2, 'float', 0.99, 1e-08, 'rw', 'Target power level of the output signal. ',
+                        '[-inf .. 0] dBov (default: -23dBov = 10log10(0.005))'),
+    'AGCGAIN': (
+    19, 3, 'float', 1000, 1, 'rw', 'Current AGC gain factor. ', '[0 .. 60] dB (default: 0.0dB = 20log10(1.0))'),
     'AGCTIME': (19, 4, 'float', 1, 0.1, 'rw', 'Ramps-up / down time-constant in seconds.'),
     'CNIONOFF': (19, 5, 'int', 1, 0, 'rw', 'Comfort Noise Insertion.', '0 = OFF', '1 = ON'),
-    'FREEZEONOFF': (19, 6, 'int', 1, 0, 'rw', 'Adaptive beamformer updates.', '0 = Adaptation enabled', '1 = Freeze adaptation, filter only'),
+    'FREEZEONOFF': (19, 6, 'int', 1, 0, 'rw', 'Adaptive beamformer updates.', '0 = Adaptation enabled',
+                    '1 = Freeze adaptation, filter only'),
     'STATNOISEONOFF': (19, 8, 'int', 1, 0, 'rw', 'Stationary noise suppression.', '0 = OFF', '1 = ON'),
     'GAMMA_NS': (19, 9, 'float', 3, 0, 'rw', 'Over-subtraction factor of stationary noise. min .. max attenuation'),
-    'MIN_NS': (19, 10, 'float', 1, 0, 'rw', 'Gain-floor for stationary noise suppression.', '[-inf .. 0] dB (default: -16dB = 20log10(0.15))'),
+    'MIN_NS': (19, 10, 'float', 1, 0, 'rw', 'Gain-floor for stationary noise suppression.',
+               '[-inf .. 0] dB (default: -16dB = 20log10(0.15))'),
     'NONSTATNOISEONOFF': (19, 11, 'int', 1, 0, 'rw', 'Non-stationary noise suppression.', '0 = OFF', '1 = ON'),
-    'GAMMA_NN': (19, 12, 'float', 3, 0, 'rw', 'Over-subtraction factor of non- stationary noise. min .. max attenuation'),
-    'MIN_NN': (19, 13, 'float', 1, 0, 'rw', 'Gain-floor for non-stationary noise suppression.', '[-inf .. 0] dB (default: -10dB = 20log10(0.3))'),
+    'GAMMA_NN': (
+    19, 12, 'float', 3, 0, 'rw', 'Over-subtraction factor of non- stationary noise. min .. max attenuation'),
+    'MIN_NN': (19, 13, 'float', 1, 0, 'rw', 'Gain-floor for non-stationary noise suppression.',
+               '[-inf .. 0] dB (default: -10dB = 20log10(0.3))'),
     'ECHOONOFF': (19, 14, 'int', 1, 0, 'rw', 'Echo suppression.', '0 = OFF', '1 = ON'),
-    'GAMMA_E': (19, 15, 'float', 3, 0, 'rw', 'Over-subtraction factor of echo (direct and early components). min .. max attenuation'),
-    'GAMMA_ETAIL': (19, 16, 'float', 3, 0, 'rw', 'Over-subtraction factor of echo (tail components). min .. max attenuation'),
+    'GAMMA_E': (19, 15, 'float', 3, 0, 'rw',
+                'Over-subtraction factor of echo (direct and early components). min .. max attenuation'),
+    'GAMMA_ETAIL': (
+    19, 16, 'float', 3, 0, 'rw', 'Over-subtraction factor of echo (tail components). min .. max attenuation'),
     'GAMMA_ENL': (19, 17, 'float', 5, 0, 'rw', 'Over-subtraction factor of non-linear echo. min .. max attenuation'),
     'NLATTENONOFF': (19, 18, 'int', 1, 0, 'rw', 'Non-Linear echo attenuation.', '0 = OFF', '1 = ON'),
-    'NLAEC_MODE': (19, 20, 'int', 2, 0, 'rw', 'Non-Linear AEC training mode.', '0 = OFF', '1 = ON - phase 1', '2 = ON - phase 2'),
-    'SPEECHDETECTED': (19, 22, 'int', 1, 0, 'ro', 'Speech detection status.', '0 = false (no speech detected)', '1 = true (speech detected)'),
-    'FSBUPDATED': (19, 23, 'int', 1, 0, 'ro', 'FSB Update Decision.', '0 = false (FSB was not updated)', '1 = true (FSB was updated)'),
-    'FSBPATHCHANGE': (19, 24, 'int', 1, 0, 'ro', 'FSB Path Change Detection.', '0 = false (no path change detected)', '1 = true (path change detected)'),
+    'NLAEC_MODE': (
+    19, 20, 'int', 2, 0, 'rw', 'Non-Linear AEC training mode.', '0 = OFF', '1 = ON - phase 1', '2 = ON - phase 2'),
+    'SPEECHDETECTED': (19, 22, 'int', 1, 0, 'ro', 'Speech detection status.', '0 = false (no speech detected)',
+                       '1 = true (speech detected)'),
+    'FSBUPDATED': (
+    19, 23, 'int', 1, 0, 'ro', 'FSB Update Decision.', '0 = false (FSB was not updated)', '1 = true (FSB was updated)'),
+    'FSBPATHCHANGE': (19, 24, 'int', 1, 0, 'ro', 'FSB Path Change Detection.', '0 = false (no path change detected)',
+                      '1 = true (path change detected)'),
     'TRANSIENTONOFF': (19, 29, 'int', 1, 0, 'rw', 'Transient echo suppression.', '0 = OFF', '1 = ON'),
-    'VOICEACTIVITY': (19, 32, 'int', 1, 0, 'ro', 'VAD voice activity status.', '0 = false (no voice activity)', '1 = true (voice activity)'),
+    'VOICEACTIVITY': (19, 32, 'int', 1, 0, 'ro', 'VAD voice activity status.', '0 = false (no voice activity)',
+                      '1 = true (voice activity)'),
     'STATNOISEONOFF_SR': (19, 33, 'int', 1, 0, 'rw', 'Stationary noise suppression for ASR.', '0 = OFF', '1 = ON'),
-    'NONSTATNOISEONOFF_SR': (19, 34, 'int', 1, 0, 'rw', 'Non-stationary noise suppression for ASR.', '0 = OFF', '1 = ON'),
-    'GAMMA_NS_SR': (19, 35, 'float', 3, 0, 'rw', 'Over-subtraction factor of stationary noise for ASR. ', '[0.0 .. 3.0] (default: 1.0)'),
-    'GAMMA_NN_SR': (19, 36, 'float', 3, 0, 'rw', 'Over-subtraction factor of non-stationary noise for ASR. ', '[0.0 .. 3.0] (default: 1.1)'),
-    'MIN_NS_SR': (19, 37, 'float', 1, 0, 'rw', 'Gain-floor for stationary noise suppression for ASR.', '[-inf .. 0] dB (default: -16dB = 20log10(0.15))'),
-    'MIN_NN_SR': (19, 38, 'float', 1, 0, 'rw', 'Gain-floor for non-stationary noise suppression for ASR.', '[-inf .. 0] dB (default: -10dB = 20log10(0.3))'),
-    'GAMMAVAD_SR': (19, 39, 'float', 1000, 0, 'rw', 'Set the threshold for voice activity detection.', '[-inf .. 60] dB (default: 3.5dB 20log10(1.5))'),
+    'NONSTATNOISEONOFF_SR': (
+    19, 34, 'int', 1, 0, 'rw', 'Non-stationary noise suppression for ASR.', '0 = OFF', '1 = ON'),
+    'GAMMA_NS_SR': (19, 35, 'float', 3, 0, 'rw', 'Over-subtraction factor of stationary noise for ASR. ',
+                    '[0.0 .. 3.0] (default: 1.0)'),
+    'GAMMA_NN_SR': (19, 36, 'float', 3, 0, 'rw', 'Over-subtraction factor of non-stationary noise for ASR. ',
+                    '[0.0 .. 3.0] (default: 1.1)'),
+    'MIN_NS_SR': (19, 37, 'float', 1, 0, 'rw', 'Gain-floor for stationary noise suppression for ASR.',
+                  '[-inf .. 0] dB (default: -16dB = 20log10(0.15))'),
+    'MIN_NN_SR': (19, 38, 'float', 1, 0, 'rw', 'Gain-floor for non-stationary noise suppression for ASR.',
+                  '[-inf .. 0] dB (default: -10dB = 20log10(0.3))'),
+    'GAMMAVAD_SR': (19, 39, 'float', 1000, 0, 'rw', 'Set the threshold for voice activity detection.',
+                    '[-inf .. 60] dB (default: 3.5dB 20log10(1.5))'),
     # 'KEYWORDDETECT': (20, 0, 'int', 1, 0, 'ro', 'Keyword detected. Current value so needs polling.'),
     'DOAANGLE': (21, 0, 'int', 359, 0, 'ro', 'DOA angle. Current value. Orientation depends on build configuration.')
 }
@@ -103,6 +130,8 @@ PARAMETERS = {
     Tail Component: reflections continue for a longer duration , referred to as the "tail" of the echo.
                     represents the later and often weaker reflections of the sound.
 """
+
+
 class Communicate_ReSpeaker:
     """
     Communication with ReSpeaker
@@ -160,7 +189,7 @@ class Communicate_ReSpeaker:
         if data[2] == 'int':
             result = response[0]
         else:
-            result = response[0] * (2.**response[1])
+            result = response[0] * (2. ** response[1])
 
         return result
 
@@ -170,32 +199,43 @@ class Communicate_ReSpeaker:
         """
         usb.util.dispose_resources(self.dev)
 
+
 class ReSpeaker_Mic4:
     def __init__(self):
+        """
+            Scope :     1. See if you can find and have access to  device
+                                -> self. find_device_and_channels
+                        2. Set Characheristics of ReSpeaker
+                                ->self.set_Characterestics
+                        3. A.Set initial parameters values based on experiments
+                           B. Explain each parameter
+                                -> self. Initial_parameter_set
+                        4. Write & Read the parameters to the device ( ReSpeaker) ->
+                                ->self.Write_initial_Parameters()
+                        5.
 
-        """some initializations"""
-        (self.NLAEC_MODE ,self.AECSILENCELEVEL,
-        self.max_input_channels, self.dev, self.p, self.D, self.M, self.FREEZEONOFF,
-        self.AGCDESIREDLEVEL, self.PARAMETERS_names, self.microphone_spacing, self.speed_of_sound,
-        self.CHUNK, self.RESPEAKER_WIDTH, self.RESPEAKER_CHANNELS, self.RESPEAKER_RATE,
-        self.AECFREEZEONOFF, self.AECNORM, self.AECPATHCHANGE, self.GAMMA_ENL, self.GAMMA_ETAIL,
-        self.GAMMA_E, self.NLATTENONOFF, self.TRANSIENTONOFF, self.ECHOONOFF, self.HPFONOFF,
-        self.GAMMA_NS, self.GAMMA_NN, self.MIN_NN, self.MIN_NS, self.NONSTATNOISEONOFF,
-        self.CNIONOFF, self.AGCONOFF, self.STATNOISEONOFF, self.AGCMAXGAIN, self.AGCTIME) = (None,) * 36
+        """
+        (self.NLAEC_MODE, self.AECSILENCELEVEL,
+         self.max_input_channels, self.dev, self.p, self.D, self.M, self.FREEZEONOFF,
+         self.AGCDESIREDLEVEL, self.PARAMETERS_names, self.microphone_spacing, self.speed_of_sound,
+         self.CHUNK, self.RESPEAKER_WIDTH, self.RESPEAKER_CHANNELS, self.RESPEAKER_RATE,
+         self.AECFREEZEONOFF, self.AECNORM, self.AECPATHCHANGE, self.GAMMA_ENL, self.GAMMA_ETAIL,
+         self.GAMMA_E, self.NLATTENONOFF, self.TRANSIENTONOFF, self.ECHOONOFF, self.HPFONOFF,
+         self.GAMMA_NS, self.GAMMA_NN, self.MIN_NN, self.MIN_NS, self.NONSTATNOISEONOFF,
+         self.CNIONOFF, self.AGCONOFF, self.STATNOISEONOFF, self.AGCMAXGAIN, self.AGCTIME) = (None,) * 36
         self.param_names_dict = []
 
-        """Functions calling"""
-        self.RESPEAKER_INDEX= self.find_device_and_channels( )
+        self.RESPEAKER_INDEX = self.find_device_and_channels()
+        self.Set_Characterestics()
         self.Initial_parameter_set()
-        self.set_initial_Characterestics( )
-        self.set_initial_Parameters( )
-        self.set_dict_names()
+        self.Write_initial_Parameters()
+
     def Initial_parameter_set(self):
         ##################
         #GAIN
         ##################
-       
-        self.AGCTIME=1 # gain set time
+
+        self.AGCTIME = 1  # gain set time
         """ Name:AGCTIME 
                         Max-Min:       0.1 - 1 
                         Descriptioon:  how quickly respond to changes in signal level,Ramps-up / down time-constant in seconds
@@ -208,16 +248,16 @@ class ReSpeaker_Mic4:
                         Descriptioon:   Maximum AGC gain factor
                         higher:         useful in lower inputs , reduce risk of noise amplification
         """
-        self.AGCDESIREDLEVEL= 0.90
+        self.AGCDESIREDLEVEL = 0.90
         """ Name:AGCDESIREDLEVEL 
                         Max-Min:1e-08 -> 0.99
                         Descriptioon:   Target power level of the output signal.,
                         lower:          beneficial in noisy engiroments , avoid amplification of backgroud nonoise
                         higher:         more aggressice in ampilfiying input signal
         """
-        self.AGCGAIN=28
+        self.AGCGAIN = 28
 
-        self.AGCONOFF= 0
+        self.AGCONOFF = 0
         """ Name:AGCONOFF  
                         Max-Min:        bool
                         Descriptioon:   Automatic Gain Control.
@@ -225,7 +265,7 @@ class ReSpeaker_Mic4:
                         1:              automatically adjust help in no controlled enviroments
         """
 
-###################################################################################################
+        ###################################################################################################
         ##################
         #NOISE
         ##################
@@ -236,21 +276,21 @@ class ReSpeaker_Mic4:
                         lower:  make the audio feel more 'digital' or unnatural .  also mean a cleaner signal without any artificially added sounds.
                         higher: can make the audio signal feel more natural and less abruptly silent when background noises are heavily suppressed.
         """
-        self.FREEZEONOFF =0
+        self.FREEZEONOFF = 0
         """ Name:
                         Max-Min:        bool
                         Descriptioon: Adaptive Beamformer Freeze On/Off , . "Freezing" these coefficients can be useful in stable environments where the direction of arrival of the primary sound source is constant
                         lower:  Allows the beamformer to continuously adapt to changes in the sound scene, which is beneficial in dynamic environments where the direction of sound sources may change or where the acoustic properties of the room vary over time.
                         higher: stabilize the sound capture quality in environments where the acoustic conditions and sound source location are constant.
         """
-        self.STATNOISEONOFF =0
+        self.STATNOISEONOFF = 0
         """ Name:
                         Max-Min:        bool
                         Descriptioon: Stationary Noise Suppression On/Off
                         lower:  in a noisier signal but can preserve more of the original sound details.
                         higher: reducing constant background noises like the hum of an air conditioner.
         """
-        self.NONSTATNOISEONOFF =0
+        self.NONSTATNOISEONOFF = 0
         """ Name:
                         Max-Min:       bool
                         Descriptioon: Non-Stationary Noise Suppression On/Off
@@ -271,7 +311,7 @@ class ReSpeaker_Mic4:
                         lower:   allowing the gain to be reduced more significantly. , result in an unnaturally quiet background or the loss of some ambient sounds.
                         higher:  less aggressive. This might be beneficial in environments where background noise is constant but not overly intrusive, as it helps maintain audio naturalness.
         """
-        self.GAMMA_NN =0.5
+        self.GAMMA_NN = 0.5
         """ Name:
                         Max-Min: 0-3 
                         Descriptioon: Over-Subtraction Factor of Non-Stationary Noise. min .. max attenuation'
@@ -285,16 +325,7 @@ class ReSpeaker_Mic4:
                         lower: lowering the noise floor further, lead to a cleaner signal with less background noise, it may also risk suppressing some desired sounds (like soft speech).
                         higher:  less aggressive noise suppression because the noise floor is raised , n preserve more of the natural ambient sound at the cost of potentially allowing more background noise to pass through.
         """
-###################################################################################################
-        # FILTERS
-        self.HPFONOFF = 3
-        """ Name:
-                        Descriptioon:  High-Pass Filter On/Off , 
-                                         '0 = OFF', '1 = ON - 70 Hz cut-off',
-                                          '2 = ON - 125 Hz cut-off', '3 = ON - 180 Hz cut-off
-                        
-        """
-###################################################################################################
+        ###################################################################################################
 
         ##################
         # ECHO
@@ -306,7 +337,7 @@ class ReSpeaker_Mic4:
                         lower:  allow echo to be more prevalent in the signal.
                         higher:  reducing the presence of echo and potentially improving clarity.
         """
-        self.TRANSIENTONOFF= 0
+        self.TRANSIENTONOFF = 0
         """ Name:
                         Max-Min:       bool
                         Descriptioon: Controls the suppression of transient echoes, which are short, temporary echoes that can occur in varying acoustic environments.
@@ -320,7 +351,7 @@ class ReSpeaker_Mic4:
                         lower:  may result in a more natural sound but could allow some echo to remain
                         higher: reducing the presence of complex echoes for clearer communication.
         """
-        self.GAMMA_E= 1.75
+        self.GAMMA_E = 1.75
         """ Name:
                         Max-Min:    0-3
                         Descriptioon: Gamma Echo , Sets the over-subtraction factor for direct and early echo components, controlling how aggressively these echoes are suppressed.
@@ -341,18 +372,18 @@ class ReSpeaker_Mic4:
                         lower:  less aggressive, possibly resulting in a more natural sound at the expense of clarity.
                         higher: more aggressive, which can help with clarity but might affect sound quality.
         """
-###################################################################################################
+        ###################################################################################################
         ##################
         # AEC Acoustic Echo Cancellation
         ##################
-        self.AECNORM=3
+        self.AECNORM = 3
         """ Name: AECNORM
                         Max-Min:     16, 0.25
                         Description: Sets the maximum norm of the AEC filter coefficients, controlling the filter's stability and adaptiveness.
                         lower: Decreasing the value makes the AEC more conservative, potentially reducing its effectiveness in rapidly changing echo conditions but improving stability.
                         higher: Increasing the value allows for more aggressive adaptation by the AEC, which can improve echo cancellation in dynamic environments at the risk of instability.
         """
-        self.AECFREEZEONOFF= 0
+        self.AECFREEZEONOFF = 0
         """ Name: AECFREEZEONOFF
                         Max-Min:   bool
                         Description: Controls whether the Adaptive Echo Canceler's filter coefficients are updated in response to changing acoustic paths.
@@ -360,7 +391,7 @@ class ReSpeaker_Mic4:
                         lower: 0 (Adaptation enabled) - The AEC filter coefficients are continuously updated, allowing the system to adapt to changes in the echo path.
                         higher: 1 (Freeze adaptation) - Updates to the AEC filter coefficients are halted, freezing the current filter state. Useful in stable environments where echo paths do not change.
         """
-        self.NLAEC_MODE=0
+        self.NLAEC_MODE = 0
         """
                        Name: NLAEC_MODE
                        Max-Min: 0, or 1 or 2  
@@ -375,24 +406,37 @@ class ReSpeaker_Mic4:
                      lower
                      higher
         """
+        ###################################################################################################
 
+        # FILTERS
+        self.HPFONOFF = 3
+        """ Name:
+                        Descriptioon:  High-Pass Filter On/Off , 
+                                         '0 = OFF', '1 = ON - 70 Hz cut-off',
+                                          '2 = ON - 125 Hz cut-off', '3 = ON - 180 Hz cut-off
 
-###################################################################################################
+        """
+        ###################################################################################################
 
-    def set_dict_names(self):
+    ###################################################################################################
+
+    def Set_dict_names(self):
         # Extracting keys from self.resp4.PARAMETERS_names and appending to dict_names
         for param in self.PARAMETERS_names:
             self.param_names_dict.append(param)  # Ensure this list captures all your desired keys
-    def set_initial_Parameters(self):
+
+    def Write_initial_Parameters(self):
         # gain
-        self.write_param('AGCTIME',self.AGCTIME)# respond quickly to changes in signal amplitudes, including low-amplitude sounds in dynamic outdoor environments.
-        self.write_param('AGCDESIREDLEVEL',self.AGCDESIREDLEVEL) #Lowering the target power level ensures that the AGC will try to amplify signals, even if they are very faint, thus enhancing sensitivity.
+        self.write_param('AGCTIME',
+                         self.AGCTIME)  # respond quickly to changes in signal amplitudes, including low-amplitude sounds in dynamic outdoor environments.
+        self.write_param('AGCDESIREDLEVEL',
+                         self.AGCDESIREDLEVEL)  #Lowering the target power level ensures that the AGC will try to amplify signals, even if they are very faint, thus enhancing sensitivity.
         # self.write_param('AGCMAXGAIN',self.AGCMAXGAIN)#gain factor
-        self.write_param('AGCONOFF',self.AGCONOFF)#gain factor
-        self.write_param('AGCGAIN',self.AGCGAIN)
+        self.write_param('AGCONOFF', self.AGCONOFF)  #gain factor
+        self.write_param('AGCGAIN', self.AGCGAIN)
         #noise
         self.write_param('CNIONOFF', self.CNIONOFF)
-        self.write_param('FREEZEONOFF', self.FREEZEONOFF) # never 1 , stucts the doa
+        self.write_param('FREEZEONOFF', self.FREEZEONOFF)  # never 1 , stucts the doa
 
         self.write_param('STATNOISEONOFF', self.STATNOISEONOFF)
         self.write_param('NONSTATNOISEONOFF', self.NONSTATNOISEONOFF)
@@ -403,7 +447,7 @@ class ReSpeaker_Mic4:
         self.write_param('MIN_NN', self.MIN_NN)
 
         # filters
-        self.write_param('HPFONOFF',self.HPFONOFF)#70 Hz cut-off , noises from backgroung
+        self.write_param('HPFONOFF', self.HPFONOFF)  #70 Hz cut-off , noises from backgroung
         # Echo
         self.write_param('ECHOONOFF', self.ECHOONOFF)
         self.write_param('TRANSIENTONOFF', self.TRANSIENTONOFF)
@@ -418,50 +462,59 @@ class ReSpeaker_Mic4:
         self.write_param('NLAEC_MODE', self.NLAEC_MODE)
         # self.write_param('AECSILENCELEVEL', self.AECSILENCELEVEL)
 
-    def set_initial_Characterestics(self):
+    def Set_Characterestics(self):
         self.RESPEAKER_RATE = 16000
         self.RESPEAKER_CHANNELS = 6
         self.RESPEAKER_WIDTH = 2
         self.CHUNK = 1024
         self.speed_of_sound = 343  # Speed of sound in m/s
-        self.microphone_spacing=0.0457
-        global PARAMETERS
-        self.PARAMETERS_names=PARAMETERS
-        m1 = np.array([0, 0, 0]) ; m2 = np.array([self.microphone_spacing, 0, 0]) ; m3 = np.array([self.microphone_spacing, self.microphone_spacing, 0]); m4 = np.array([0, self.microphone_spacing, 0])
-        self.M=np.array([m1,m2,m3,m4])
+        self.microphone_spacing = 0.0457
 
-        d12=m1-m2 ; d13=m1-m3 ; d14=m1-m4 ; d23=m2-m3 ; d24=m2-m4  ; d34=m3-m4
-        self.D=np.array([d12,d13,d14,d23,d24,d34])
+        global PARAMETERS
+        self.PARAMETERS_names = PARAMETERS
+        self.Set_dict_names()
+
+        m1 = np.array([0, 0, 0]);         m2 = np.array([self.microphone_spacing, 0, 0])
+        m3 = np.array([self.microphone_spacing, self.microphone_spacing, 0])
+        m4 = np.array([0, self.microphone_spacing, 0])
+        self.M = np.array([m1, m2, m3, m4])
+
+        d12 = m1 - m2;         d13 = m1 - m3;        d14 = m1 - m4
+        d23 = m2 - m3;         d24 = m2 - m4;        d34 = m3 - m4
+        self.D = np.array([d12, d13, d14, d23, d24, d34])
+
     def find_device_and_channels(self):
-        self.p = pyaudio.PyAudio( )
-        self.dev=usb.core.find( idVendor=0x2886,idProduct=0x0018 )
+        self.p = pyaudio.PyAudio()
+        self.dev = usb.core.find(idVendor=0x2886, idProduct=0x0018)
         target_name = "ReSpeaker 4 Mic Array (UAC1.0)"
         target_index = None
 
-        for i in range( self.p.get_device_count( ) ):
-            device_info = self.p.get_device_info_by_index( i )
-            device_name = device_info.get( 'name' )
+        for i in range(self.p.get_device_count()):
+            device_info = self.p.get_device_info_by_index(i)
+            device_name = device_info.get('name')
             # print(device_name)
 
             if target_name in device_name:
                 target_index = i
                 break  # Exit the loop if a match is found
         if target_index is not None:
-            print( f"{target_name}: found at index {target_index}" )
-            self.max_input_channels = self.p.get_device_info_by_index(target_index )['maxInputChannels']
-            print("Channels: " , self.max_input_channels)
+            print(f"{target_name}: found at index {target_index}")
+            self.max_input_channels = self.p.get_device_info_by_index(target_index)['maxInputChannels']
+            print("Channels: ", self.max_input_channels)
             self.p.terminate()
 
             return target_index
         else:
-            print( f"{target_name}': not found" )
+            print(f"{target_name}': not found")
             self.p.terminate()
 
             return False
-    def write_param(self,param,argums):
+
+    def write_param(self, param, argums):
         if self.dev:
-            Mic_tuning = Communicate_ReSpeaker( self.dev )
-            Mic_tuning.write(param,argums)
+            Mic_tuning = Communicate_ReSpeaker(self.dev)
+            Mic_tuning.write(param, argums)
+
     def read_param(self, the_Self=None, param_string=''):
         try:
             Mic_tuning = Communicate_ReSpeaker(self.dev)
@@ -473,7 +526,8 @@ class ReSpeaker_Mic4:
         except Exception as e:
             print(f"Error reading parameter {param_string}: {e}")
             return 0  # Return a default numeric value on error
+
     @property
     def doa_from_respeaker(self):
-        doa= self.read_param(param_string='DOAANGLE')
+        doa = self.read_param(param_string='DOAANGLE')
         return doa
