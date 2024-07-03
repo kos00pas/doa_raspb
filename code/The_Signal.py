@@ -3,46 +3,76 @@ import numpy as np
 import pyaudio
 import time
 
+"""
+
+
+        
+
+"""
+
+
 class Signal:
     def __init__(self, main_window, database):
-        self.DATA = database
-        self.main_window = main_window
+        """
+            Scope of class:     1. Record               ->  start_recording() , stop_recording() , record_audio()
+                                2. plot                 -> update_signal_plot()
+                                3. && listen the signal -> c0_play(), c0_stop_real_time(), c0_play_real_time()
+                                4. destroy threads && streaming  -> for_destroy()
+                                     ** update_signal_plot is for plotting in real time the signal
+                                             -> For better performance in RaspberryPi we comment the plotting
+                                             *** also we comment the data for that update_signal_plot use :  self.DATA.c0_buff.append(c0)
+                                     ** for listening -> need fix based on ALSA problems
+                                            -> functions c0_play(), c0_stop_real_time(), c0_play_real_time()
+        """
+        self.DATA = database  # get access to database
+        self.main_window = main_window  # get access to main window
 
         self.c0_stop_real_time_var = False
-        self.p_recording = None
-        self.stream_in = None
-        self.stream_out = None
-        self.c0_playback_thread = None
+        (self.p_c0, self.first_time, self.p_recording, self.stream_in, self.stream_out, self.c0_playback_thread) = (
+                                                                                                                       None,) * 6
         self.stop_event = threading.Event()
 
     def start_recording(self):
+        """
+        Scope :  Call recording and update-plot threads
+        """
         if not self.DATA.recording:
             self.DATA.recording = True
             print("Start rec, wait")
+
             self.DATA.time_of_Start = time.time()
-            self.main_window.listening_button.config(state='normal')
+
+            self.main_window.listening_button.config(state='normal')  # enable listening
 
             self.recording_thread = threading.Thread(target=self.record_audio)
-            self.update_signal_thread = threading.Thread(target=self.update_signal_plot)
             self.recording_thread.start()
-            self.update_signal_thread.start()
+
+            """self.update_signal_thread = threading.Thread(target=self.update_signal_plot)
+            self.update_signal_thread.start()"""
 
     def stop_recording(self):
         if self.DATA.recording:
             self.DATA.recording = False
+
+            # disable listening and mfcc
             self.main_window.listening_button.config(state='disabled', text="Start Listen", bg="light yellow")
             self.main_window.make_mfcc_button.config(state='disabled', bg="light yellow")
+
+            # save recording that just stoped.
             self.DATA.The_Saves_after_recording()
+
             self.stop_event.set()
-            self.update_signal_thread.join(timeout=1)
+            """self.update_signal_thread.join(timeout=1)
             if self.update_signal_thread.is_alive():
                 print("Warning: update_signal_thread did not terminate. Retrying...")
-                self.update_signal_thread.join(timeout=3)
+                self.update_signal_thread.join(timeout=3)"""
+
             self.c0_stop_real_time()
 
     def record_audio(self):
+        # Init stream
         self.p_recording = pyaudio.PyAudio()
-        stream = self.p_recording.open(
+        self.stream_in = self.p_recording.open(
             rate=self.DATA.resp4.RESPEAKER_RATE,
             channels=self.DATA.resp4.RESPEAKER_CHANNELS,
             format=pyaudio.paInt16,
@@ -50,48 +80,56 @@ class Signal:
             input_device_index=self.DATA.resp4.RESPEAKER_INDEX,
             frames_per_buffer=self.DATA.resp4.CHUNK
         )
-        self.stream_in = stream
+
         try:
+            # when a new Recording starts:
             self.DATA.c0_buff = []
-            self.DATA.last_second_c0 = []
-            self.first_time = True
+            self.DATA.pending_c0 = []
             self.DATA.frames = []
+            self.first_time = True
+
+            # while Recording
             while self.DATA.recording:
-                data = stream.read(self.DATA.resp4.CHUNK, exception_on_overflow=False)
+                # Get data from stream
+                data = self.stream_in.read(self.DATA.resp4.CHUNK, exception_on_overflow=False)
                 self.DATA.frames.append(data)
 
+                # Convert the data in the appropriate form & append them
                 channel_data_chunk = np.frombuffer(data, dtype=np.int16)
                 channel_data_chunk = channel_data_chunk.reshape(-1, self.DATA.resp4.RESPEAKER_CHANNELS).T
                 c0 = channel_data_chunk[0]
+                self.DATA.pending_c0.append(c0)
 
-                # for mfcc
-                self.DATA.last_second_c0.append(c0)
-                if len(self.DATA.last_second_c0) > self.DATA.chunks_per_second* self.DATA.second_rec_for_mfcc:
+                # 1. Enable mfcc when have enough data
+                # 2. Pop old data when archived that size,
+                #        size : chunks_per_second *second_rec_for_mfcc
+                if len(self.DATA.pending_c0) > self.DATA.chunks_per_second * self.DATA.second_rec_for_mfcc:
                     self.main_window.make_mfcc_button.config(state='normal', bg="cyan")
-                    self.DATA.last_second_c0.pop(0)
-                    
-                
-                #for signal  plotting 
+                    self.DATA.pending_c0.pop(0)
+
+                """#for signal  plotting 
                 self.DATA.c0_buff.append(c0)
                 if len(self.DATA.c0_buff) > self.DATA.seconds_signal_plotting * self.DATA.resp4.RESPEAKER_RATE / self.DATA.resp4.CHUNK:
-                    self.DATA.c0_buff.pop(0)
+                    self.DATA.c0_buff.pop(0)"""
 
         except Exception as e:
             print(f"An error occurred during recording: {e}")
         finally:
-            stream.stop_stream()
-            stream.close()
+            # termination of recording
+            self.stream_in.stop_stream()
+            self.stream_in.close()
             self.p_recording.terminate()
             print("Recording stopped")
 
-    def update_signal_plot(self):
+    """def update_signal_plot(self):
+
         if self.DATA.recording and len(self.DATA.c0_buff) > 0 and self.DATA.yes_plot_signal:
             audio_data = np.concatenate(self.DATA.c0_buff)
             time_in_seconds = np.arange(len(audio_data)) / self.DATA.resp4.RESPEAKER_RATE
             self.main_window.canvas.draw_idle()
 
         if self.DATA.recording and self.DATA.yes_plot_signal:
-            self.main_window.after(self.DATA.signal_refresh, self.update_signal_plot)
+            self.main_window.after(self.DATA.signal_refresh, self.update_signal_plot)"""
 
     def c0_stop_real_time(self):
         self.c0_stop_real_time_var = False

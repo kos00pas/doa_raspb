@@ -1,4 +1,4 @@
-# doa_raspb : Direction of Drone with  ReSpeaker USB 4 Mic Array v2 at RaspberryPi 4 model B 64bit 
+# ReSpeaker  Mic4 Array v2 at RaspberryPi 4 model B 64bit for Direction of Drone   
 
 ## Description
 Ability to adjust the parameters of ReSpeaker in order to localize a Drone in the further distance that the ReSpeaker can.
@@ -22,6 +22,10 @@ sudo apt-get install libatlas-base-dev  libopenjp2-7
 sudo apt-get install -y jackd2
 sudo apt-get install python3-dev
 sudo apt-get install -y python3-tk
+sudo apt update
+sudo apt install pulseaudio
+
+
 
 ```
 2. Set Up Python Virtual Environment
@@ -59,21 +63,10 @@ cd doa_raspb/usb_4_mic_array
 source /home/<user>/doa_env/bin/activate
 python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
 ```
-4. if you are running in WSL 
-```bash 
-Visit the usbipd-win releases page on GitHub and download and install .msi
-after installation run 
-	- usbipd wsl install
 
 
-To Run in wsl 
-- source /home/kos00pas/.virtualenvs/doa_env/bin/activate
 
-
-```
-
-
-5. For every time 
+4. For every time 
 ```bash
 source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb/code

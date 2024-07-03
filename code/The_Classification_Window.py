@@ -26,7 +26,7 @@ class Classification_Window:
         """
         print('making mfcc.....wait')
         time_start = time.time()
-        last_second_data = np.concatenate(self.DATA.last_second_c0)
+        last_second_data = np.concatenate(self.DATA.pending_c0)
         audio = last_second_data.astype(np.float32)
         frame_duration = 0.02
         sr = self.DATA.resp4.RESPEAKER_RATE

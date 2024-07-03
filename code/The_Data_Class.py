@@ -35,7 +35,7 @@ class Data_Class:    #   -> database
         self.doa_log= []
         self.drone_log= []
         self.all_the_parameters= []
-        self.last_second_c0= []
+        self.pending_c0= []
         """Mutex or enable variables"""
         self.recording = False
         self.listening=False
