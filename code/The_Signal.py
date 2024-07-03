@@ -70,7 +70,7 @@ class Signal:
             self.c0_stop_real_time()
 
     def record_audio(self):
-        # Init stream
+        """Init stream"""
         self.p_recording = pyaudio.PyAudio()
         self.stream_in = self.p_recording.open(
             rate=self.DATA.resp4.RESPEAKER_RATE,
@@ -82,13 +82,13 @@ class Signal:
         )
 
         try:
-            # when a new Recording starts:
+            """When a new Recording starts:"""
             self.DATA.c0_buff = []
             self.DATA.pending_c0 = []
             self.DATA.frames = []
             self.first_time = True
 
-            # while Recording
+            """While Recording"""
             while self.DATA.recording:
                 # Get data from stream
                 data = self.stream_in.read(self.DATA.resp4.CHUNK, exception_on_overflow=False)
@@ -97,21 +97,19 @@ class Signal:
                 # Convert the data in the appropriate form & append them
                 channel_data_chunk = np.frombuffer(data, dtype=np.int16)
                 channel_data_chunk = channel_data_chunk.reshape(-1, self.DATA.resp4.RESPEAKER_CHANNELS).T
-                c0 = channel_data_chunk[0]
-                self.DATA.pending_c0.append(c0)
+                c0 = channel_data_chunk[0]  #!
+                self.DATA.pending_c0.append(c0)  #!
 
-                # 1. Enable mfcc when have enough data
-                # 2. Pop old data when archived that size,
-                #        size : chunks_per_second *second_rec_for_mfcc
+                """ 1. Enable mfcc when have enough data
+                    2. Pop old data when archived that size,
+                            size : chunks_per_second *second_rec_for_mfcc"""
                 if len(self.DATA.pending_c0) > self.DATA.chunks_per_second * self.DATA.second_rec_for_mfcc:
                     self.main_window.make_mfcc_button.config(state='normal', bg="cyan")
-                    self.DATA.pending_c0.pop(0)
-
+                    self.DATA.pending_c0.pop(0)  #!
                 """#for signal  plotting 
                 self.DATA.c0_buff.append(c0)
                 if len(self.DATA.c0_buff) > self.DATA.seconds_signal_plotting * self.DATA.resp4.RESPEAKER_RATE / self.DATA.resp4.CHUNK:
                     self.DATA.c0_buff.pop(0)"""
-
         except Exception as e:
             print(f"An error occurred during recording: {e}")
         finally:
