@@ -65,6 +65,11 @@ Visit the usbipd-win releases page on GitHub and download and install .msi
 after installation run 
 	- usbipd wsl install
 
+
+To Run in wsl 
+- source /home/kos00pas/.virtualenvs/doa_env/bin/activate
+
+
 ```
 
 

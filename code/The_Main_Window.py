@@ -138,6 +138,9 @@ class Main_Window(tk.Tk):
         self.control_frame_title.grid(row=0, column=0, padx=10, pady=10, sticky='nw')
 
     def toggle_listen(self):
+        """
+                   Scope:      When  Listen button pressed;  then run that function
+        """
         if self.DATA.listening:
             self.the_signal.c0_stop_real_time()
             self.listening_button.config(text="Start Listen ", bg="cyan")
@@ -147,6 +150,9 @@ class Main_Window(tk.Tk):
         self.DATA.listening = not self.DATA.listening
 
     def toggle_recording(self):
+        """
+                   Scope:      When  recording button pressed;  then run that function
+        """
         if self.DATA.recording:
             self.the_signal.stop_recording()
             self.rec_button.config(text="Start recording", bg="light yellow")
@@ -157,7 +163,7 @@ class Main_Window(tk.Tk):
 
     def make_mfcc(self):
         """
-                Scope:      When the button of Mfcc pressed then run that function
+                Scope:      When  Mfcc button  pressed;  then run that function
         """
 
         def thread_mfcc_function():
