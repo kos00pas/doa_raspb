@@ -21,6 +21,7 @@ sudo apt-get install -y lsb-release wget software-properties-common gnupg
 sudo apt-get install libatlas-base-dev  libopenjp2-7
 sudo apt-get install -y jackd2
 sudo apt-get install python3-dev
+sudo apt-get install -y python3-tk
 
 ```
 2. Set Up Python Virtual Environment
@@ -58,7 +59,16 @@ cd doa_raspb/usb_4_mic_array
 source /home/<user>/doa_env/bin/activate
 python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
 ```
-4. For every time 
+4. if you are running in WSL 
+```bash 
+Visit the usbipd-win releases page on GitHub and download and install .msi
+after installation run 
+	- usbipd wsl install
+
+```
+
+
+5. For every time 
 ```bash
 source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb/code

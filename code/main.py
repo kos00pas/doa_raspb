@@ -4,6 +4,11 @@ from The_Main_Window import Main_Window
 
 
 class GUIManager:
+    '''
+    Scope : Manage:
+                    1. Main window -> Main_window
+                    2. Database -> Data_Class
+    '''
     def __init__(self,resp4_resp):
         print("here")
         self.DATA = The_Data_Class.Data_Class(resp4=resp4_resp ) #1
