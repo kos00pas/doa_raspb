@@ -16,7 +16,7 @@ class Main_Window(tk.Tk):
         self.close_mfcc_event = threading.Event()
         '''
             Scope       : GUI main window plot 
-            Task of Fun : 1. initialize window ->  self.main_window_init()
+                          1. initialize window ->  self.main_window_init()
                           2. initialize doa     -> The_DOA_resp
         '''
         self.DATA = database
@@ -40,8 +40,8 @@ class Main_Window(tk.Tk):
                                   2. Parameter window init.   -> connections with device( ReSpeaker mic array v2) and
                                                               -> set the buttons based on ReSpeaker
         '''
-        #check operating system
-        if sys.platform.startswith('win'):
+
+        if sys.platform.startswith('win'): #check operating system
             self.state('zoomed')
         else:  # For Linux and other systems
             self.attributes('-zoomed', True)
@@ -52,10 +52,10 @@ class Main_Window(tk.Tk):
         self.protocol("WM_DELETE_WINDOW", self.on_close_main_window)
 
         self.setup_control_frames()
-        # Initialize the RecordingControls
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
         self.the_signal = The_Signal.Signal(self, self.DATA)
-        # Initialize the parameter space window with the new control frame
         self.parameter_space = The_Parameters_Window.Parameters_Window(self.DATA, self.control_frame)
+        """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
         # Configure the grid to take full space
         self.grid_columnconfigure(0, weight=1)

@@ -230,8 +230,7 @@ class ReSpeaker_Mic4:
         self.Initial_parameter_set()
         self.Write_initial_Parameters()
 
-    def Initial_parameter_set(self):
-        ##################
+    def Initial_parameter_set(self):        ##################
         #GAIN
         ##################
 

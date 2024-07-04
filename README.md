@@ -5,7 +5,7 @@ Ability to adjust the parameters of ReSpeaker in order to localize a Drone in th
 Implemented:
 - Parameter adjusment of ReSpeaker
 - Recording 
-- Mfcc and pre-process of data for a CNN
+- Mfcc and pre-process of data that can use to identify drone 
 
 ## Installation
 1.  sudo apts
@@ -73,4 +73,24 @@ cd <path_to>/doa_raspb/code
 python main.py
 ```
 
+## Structure of Code 
+### File/class and owning 
+![text](class.jpg)
+- main.py
+  - ReSpeaker_Mic4.py
+	  - ReSpeaker_Mic4.py/ReSpeaker_Mic4
+	  - ReSpeaker_Mic4.py/Communicate_ReSpeaker
+  - main.py/GUIManager
+	  - The_Data_Class.py
+	  - The_Main_Window.py
+        - The_DOA_resp.py
+        - The_Signal.py
+        - The_Parameters_Window.py
+        - The_Classification_Window.py
 
+
+
+### Gui button per class 
+![text](classes.jpg)
+
+1. 
