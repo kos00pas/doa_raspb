@@ -74,6 +74,19 @@ source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb/code
 python main.py
 ```
+5. Anaconda
+If you want to run them with anaconda then :   
+```bash 
+conda create --name doa_env python=3.8
+conda activate doa_env
+conda install -y numpy scipy scikit-learn matplotlib librosa
+conda install -y -c conda-forge pyusb keyboard sounddevice pyaudio click
+conda install -y -c conda-forge audioread==2.1.9 joblib==1.2.0
+conda install -y -c conda-forge llvmlite==0.43.0 numba==0.60.0 decorator==5.1.1 soundfile==0.12.1 resampy==0.3.1
+conda install -y -c conda-forge wheel==0.43.0 meson==1.4.1 meson-python==0.16.0
+conda install -y -c conda-forge Cython==3.0.10 pybind11==2.13.0 pythran==0.16.1
+
+```
 ## Functionality 
 When you run the code then you can:
 - Adjust the parameters of ReSpeaker Mic Array v2.0 to adjust the way that device 'listen'
