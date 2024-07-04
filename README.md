@@ -100,3 +100,4 @@ python main.py
 
 ### ReSpeaker
 ![Resp](Resp.jpg)
+the initial photo is from :https://wiki.seeedstudio.com/ReSpeaker_Mic_Array_v2.0/
