@@ -1,12 +1,10 @@
-# ReSpeaker  Mic4 Array v2 at RaspberryPi 4 model B 64bit for Direction of Drone   
-
+# ReSpeaker Mic Array v2.0 on RaspberryPi 4 model B 64bit for drone tracking   
 ## Description
-Ability to adjust the parameters of ReSpeaker in order to localize a Drone in the further distance that the ReSpeaker can.
+Ability to adjust the parameters of the ReSpeaker to locate a drone further away than the ReSpeaker can.
 Implemented:
-- Parameter adjusment of ReSpeaker
+- ReSpeaker parameter adjustment
 - Recording 
-- Mfcc and pre-process of data that can use to identify drone 
-
+- Mfcc and pre-processing of data that can be used to identify drones 
 ## Installation
 1.  sudo apts
 ```bash
@@ -79,11 +77,11 @@ python main.py
 
 ## Structure of Code 
 ### File/class and owning 
-![class](class.jpg)
+Here you can see which class own other class
 - main.py
   - ReSpeaker_Mic4.py
 	  - ReSpeaker_Mic4.py/ReSpeaker_Mic4
-	  - ReSpeaker_Mic4.py/Communicate_ReSpeaker
+        - ReSpeaker_Mic4.py/Communicate_ReSpeaker
   - main.py/GUIManager
 	  - The_Data_Class.py
 	  - The_Main_Window.py
@@ -91,13 +89,31 @@ python main.py
         - The_Signal.py
         - The_Parameters_Window.py
         - The_Classification_Window.py
-
+        
+![class](class.jpg)
 
 
 ### Gui button per class 
+Here you can see which class is called when you press a function
 ![guii](guii.jpg)
 
 
 ### ReSpeaker
+- Here is the process when you want to interact with the ReSpeaker Mic Array v2.0
+    - lets se an example:e.g. change the high-pass filter 
+      - The [1.The_Main_window.py] give space to [2.The_Parameters_Window] through self(1).control_frame
+      -  In the [2.The_Parameters_Window.__init__] we specify the row of filters categories, and we create the fader like this: 
+        ```bash
+            self.HPFONOFF = tk.DoubleVar()
+            self.create_scale(space, 0, 3, 1, self.HPFONOFF, roww, 2, 'HPFONOFF', textt="HPFONOFF")
+         ```
+      - when the user move the fader the self.create_scale call the follwoing to write the new value in the spesific parameter:
+        ```bash
+        self.DATA.resp4.write_param(param, value)
+        ```
+        which
+      - 1. DATA represents:  [3.the The_Data_Class.py]  and 
+      - 2. resp4 represent:  [4.the ReSpeaker_Mic4.py/ReSpeaker_Mic4]
+      - 3. write_param represent: [5. ReSpeaker_Mic4.py/Communicate_ReSpeaker] 
 ![Resp](Resp.jpg)
-the initial photo is from :https://wiki.seeedstudio.com/ReSpeaker_Mic_Array_v2.0/
+**The initial photo is from :https://wiki.seeedstudio.com/ReSpeaker_Mic_Array_v2.0/
