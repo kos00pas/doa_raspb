@@ -74,6 +74,29 @@ source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb/code
 python main.py
 ```
+## Functionality 
+When you run the code then you can:
+- Adjust the parameters of ReSpeaker Mic Array v2.0 to adjust the way that device 'listen'
+- Enable the saving of recording
+- Record the audio in a single channel that is affected based  on the parameters and enable listening 
+    -     save at : folder Saved_Recording
+- When recording is running then you can create a mfcc when the data is enough to produce (after approximate 5 seconds after recording started), alongside with the signal that mfcc was created 
+    -     save at: folder MFCC_SIGNAL_saves, files:
+                                      1. mfcc.csv
+                                      2. signal.csv
+
+
+- Append the parameters and DOA in a csv 
+  -         save at : folder Saved_DOA_n_Params, files:
+                                        1. DOA_timestamp.csv 
+                                        2. Parameters_timestamp.csv 
+
+
+Here you can see which class is called when you press a function
+![guii](guii.jpg)
+
+
+
 
 ## The Structure of Code 
 ### File/class and owning 
@@ -93,14 +116,25 @@ Here you can see which class own other class
 ![class](class.jpg)
 
 
-### Gui button per class 
-Here you can see which class is called when you press a function
-![guii](guii.jpg)
 
 
-### ReSpeaker
+### ReSpeaker Communication
 - This is the procedure when you want to interact with the ReSpeaker Mic Array v2.0.
-  - Lets see an example: e.g. changing the high pass filter 
+  - Lets see two examples of parameters (1. DOA,2. high-pass )
+  #### Get DOA(Direction of Arrival)
+     - The [1.The_Main_window.py] initiates the doa class:
+    ```bash 
+          self.doa_plot = The_DOA_resp.The_DOA_resp(self.DATA, self)
+    ```
+    - The [The_DOA_resp.doa_resp] communicates with ReSpeaker every [The_DOA_resp.DATA.doa_refresh] second to get the DOA: 
+    ```bash 
+     doa_azimuth_degrees = self.DATA.resp4.doa_from_respeaker 
+   ```
+    - Then print the now doa to the GUI:
+    ```bash 
+      self.main_window.doaa_label.config(font="bold",text=f'DOA: {doa_azimuth_degrees}')
+    ```
+  #### Changing the high pass filter 
     - The [1.The_Main_window.py] give space to [2.The_Parameters_Window] through self(1).control_frame
     - In the [2.The_Parameters_Window.__init__] we specify the row of filters categories, and we create the fader like this: 
             ```bash
