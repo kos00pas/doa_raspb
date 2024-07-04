@@ -58,10 +58,14 @@ problem with pyaudio -> sudo apt install python3-pyaudio
 3. For the first time 
 ```bash
 sudo apt-get update
-git clone https://github.com/kos00pas/doa_raspb.git
-cd doa_raspb/usb_4_mic_array
-source /home/<user>/doa_env/bin/activate
-python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
+sudo pip install pyusb click
+git clone https://github.com/respeaker/usb_4_mic_array.git
+cd usb_4_mic_array
+
+A. sudo python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
+or
+B.sudo python dfu.py --download 1_channel_firmware.bin # if you want to use 1 channel,then the command should be like:
+
 ```
 
 
@@ -91,6 +95,8 @@ python main.py
 
 
 ### Gui button per class 
-![text](classes.jpg)
+![text](guii.jpg)
 
-1. 
+
+### ReSpeaker
+![fvf](Resp.jpg)
