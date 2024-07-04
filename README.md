@@ -75,7 +75,7 @@ cd <path_to>/doa_raspb/code
 python main.py
 ```
 
-## Structure of Code 
+## The Structure of Code 
 ### File/class and owning 
 Here you can see which class own other class
 - main.py
@@ -99,21 +99,21 @@ Here you can see which class is called when you press a function
 
 
 ### ReSpeaker
-- Here is the process when you want to interact with the ReSpeaker Mic Array v2.0
-- Lets se an example:e.g. change the high-pass filter 
-  - The [1.The_Main_window.py] give space to [2.The_Parameters_Window] through self(1).control_frame
-  -  In the [2.The_Parameters_Window.__init__] we specify the row of filters categories, and we create the fader like this: 
-          ```bash
-              self.HPFONOFF = tk.DoubleVar()
-              self.create_scale(space, 0, 3, 1, self.HPFONOFF, roww, 2, 'HPFONOFF', textt="HPFONOFF")
-           ```
-  - when the user move the fader the self.create_scale call the follwoing to write the new value in the spesific parameter:
-          ```bash
-          self.DATA.resp4.write_param(param, value)
-          ```
-  which:
-    - 1. DATA represents:  [3.the The_Data_Class.py]  and 
-    - 2. resp4 represent:  [4.the ReSpeaker_Mic4.py/ReSpeaker_Mic4]
-    - 3. write_param represent: [5. ReSpeaker_Mic4.py/Communicate_ReSpeaker] 
-  ![Resp](Resp.jpg)
-  **The initial photo is from :https://wiki.seeedstudio.com/ReSpeaker_Mic_Array_v2.0/
+- This is the procedure when you want to interact with the ReSpeaker Mic Array v2.0.
+  - Lets see an example: e.g. changing the high pass filter 
+    - The [1.The_Main_window.py] give space to [2.The_Parameters_Window] through self(1).control_frame
+    - In the [2.The_Parameters_Window.__init__] we specify the row of filters categories, and we create the fader like this: 
+            ```bash
+                self.HPFONOFF = tk.DoubleVar()
+                self.create_scale(space, 0, 3, 1, self.HPFONOFF, roww, 2, 'HPFONOFF', textt="HPFONOFF")
+             ```
+    - When the user moves the fader, self.create_scale will call the following to write the new value into the specific parameter 
+            ```bash
+            self.DATA.resp4.write_param(param, value)
+            ```
+    which:
+      - 1. DATA represents:  [3.the The_Data_Class.py]  and 
+      - 2. resp4 represents:  [4.the ReSpeaker_Mic4.py/ReSpeaker_Mic4]
+      - 3. write_param represent: [5. ReSpeaker_Mic4.py/Communicate_ReSpeaker] 
+    ![Resp](Resp.jpg)
+    **The initial photo is from :https://wiki.seeedstudio.com/ReSpeaker_Mic_Array_v2.0/
