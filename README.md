@@ -79,7 +79,7 @@ python main.py
 
 ## Structure of Code 
 ### File/class and owning 
-![text](class.jpg)
+![class](class.jpg)
 - main.py
   - ReSpeaker_Mic4.py
 	  - ReSpeaker_Mic4.py/ReSpeaker_Mic4
@@ -95,8 +95,8 @@ python main.py
 
 
 ### Gui button per class 
-![text](guii.jpg)
+![guii](guii.jpg)
 
 
 ### ReSpeaker
-![fvf](Resp.jpg)
+![Resp](Resp.jpg)
