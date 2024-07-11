@@ -1,29 +1,40 @@
 import tensorflow as tf
 from tensorflow.keras.datasets import mnist
-from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.optimizers import Adam
 
-# Load MNIST dataset
-(train_data, train_labels), (test_data, test_labels) = mnist.load_data()
+# Load and preprocess the MNIST dataset
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+train_images = train_images / 255.0
+test_images = test_images / 255.0
 
-# Preprocess the data
-train_data = train_data.reshape((train_data.shape[0], 28 * 28)).astype('float32') / 255
-test_data = test_data.reshape((test_data.shape[0], 28 * 28)).astype('float32') / 255
-
-train_labels = to_categorical(train_labels)
-test_labels = to_categorical(test_labels)
-
-# Define the model
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Dense(128, activation='relu', input_shape=(28 * 28,)),
-    tf.keras.layers.Dense(10, activation='softmax')
+# Define a simple neural network model
+model = Sequential([
+    Flatten(input_shape=(28, 28)),
+    Dense(128, activation='relu'),
+    Dense(10, activation='softmax')
 ])
 
-model.compile(optimizer='adam',
-              loss='categorical_crossentropy',
+# Compile the model
+model.compile(optimizer=Adam(),
+              loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
 # Train the model
-model.fit(train_data, train_labels, epochs=5, batch_size=32, validation_data=(test_data, test_labels))
+model.fit(train_images, train_labels, epochs=5)
+
+# Evaluate the model
+loss, accuracy = model.evaluate(test_images, test_labels)
+print(f'Loss: {loss}, Accuracy: {accuracy}')
 
 # Save the model
-model.save('my_model.h5')
+model.save('mnist_model.h5')
+
+# Convert the model to TensorFlow Lite format
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+# Save the TensorFlow Lite model
+with open('mnist_model.tflite', 'wb') as f:
+    f.write(tflite_model)
