@@ -34,6 +34,7 @@ source  /home/<user>/doa_env/bin/activate
 ```
 3. Install Python Packages
 ```bash
+** if you are in windows, prefer to use conda based on compatibilities issues 
 pip install pyusb keyboard sounddevice PyAudio click
 pip install audioread==2.1.9 joblib==1.2.0
 pip install llvmlite==0.43.0 numba==0.60.0 decorator==5.1.1 soundfile==0.12.1 resampy==0.3.1
