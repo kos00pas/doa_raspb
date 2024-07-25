@@ -1,5 +1,6 @@
 activate env 
-sudo chrt -f 99 /home/kos00pas/doa_env/bin/python main.py should not make the situation worse. In fact, it is designed to give your script the highest real-time priority, which can help reduce audio interruptions.
+sudo chrt -f 99 /home/kos00pas/doa_env/bin/python /home/kos00pas/Documents/new_start_2/doa_raspb/code/main.py
+ # it is designed to give your script the highest real-time priority, which can help reduce audio interruptions.
 
 sudo nano /etc/asound.conf
 
