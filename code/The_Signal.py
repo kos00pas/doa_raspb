@@ -78,7 +78,7 @@ class Signal:
             format=pyaudio.paInt16,
             input=True,
             input_device_index=self.DATA.resp4.RESPEAKER_INDEX,
-            frames_per_buffer=self.DATA.resp4.CHUNK
+            frames_per_buffer=int(self.DATA.resp4.CHUNK)
         )
 
         try:
@@ -160,17 +160,23 @@ class Signal:
                     channels=1,
                     rate=self.DATA.resp4.RESPEAKER_RATE,
                     output=True,
-                    output_device_index=2
+                    output_device_index=self.DATA.resp4.HEADPHONES_INDEX,
+                    frames_per_buffer=int(self.DATA.resp4.CHUNK ) # Ensure integer buffer size
+
                 )
 
             print("Starting real-time playback. Press Escape, Backspace, or Space to stop.")
 
             while self.DATA.recording and self.c0_stop_real_time_var:
-                data = self.stream_in.read(self.DATA.resp4.CHUNK, exception_on_overflow=False)
-                np_data = np.frombuffer(data, dtype=np.int16)
-                channel_data = np_data.reshape(-1, self.DATA.resp4.RESPEAKER_CHANNELS)[:, 0]
-                mono_data = channel_data.tobytes()
-                self.stream_out.write(mono_data)
+                try:
+                    data = self.stream_in.read(self.DATA.resp4.CHUNK, exception_on_overflow=False)
+                    np_data = np.frombuffer(data, dtype=np.int16)
+                    channel_data = np_data.reshape(-1, self.DATA.resp4.RESPEAKER_CHANNELS)[:, 0]
+                    mono_data = channel_data.tobytes()
+                    self.stream_out.write(mono_data)
+                except IOError as e:
+                    print(f"Buffer underflow or other error: {e}")
+                    continue  # Handle buffer underflow gracefully
 
         except Exception as e:
             print(f"An error occurred during real-time playback: {e}")
