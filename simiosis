@@ -1,0 +1,3 @@
+udo chrt -f 99 /home/kos00pas/doa_env/bin/python main.py should not make the situation worse. In fact, it is designed to give your script the highest real-time priority, which can help reduce audio interruptions.
+
+
