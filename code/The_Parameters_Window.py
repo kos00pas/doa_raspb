@@ -56,7 +56,7 @@ class Parameters_Window:
         self.set_red_green('AECFREEZEONOFF', self.AECFREEZEONOFF)
 
         self.aec_norm = tk.DoubleVar()
-        self.create_scale(space, 0.25, 16, 0.75, self.GAMMA_E, roww, 2, 'AECNORM', textt="AECNORM")
+        self.create_scale(space, 0.25, 16, 0.75, self.aec_norm, roww, 2, 'AECNORM', textt="AECNORM")
 
     def echo(self, roww, space):
         echo_label = tk.Label(space, text="Echo")
