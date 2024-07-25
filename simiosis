@@ -1,6 +1,7 @@
 sudo chrt -f 99 /home/kos00pas/doa_env/bin/python main.py should not make the situation worse. In fact, it is designed to give your script the highest real-time priority, which can help reduce audio interruptions.
 
-nano ~/etc/asound.conf
+sudo nano /etc/asound.conf
+
 pcm.!default {
     type asym
     playback.pcm {
@@ -20,3 +21,6 @@ ctl.!default {
 
 
 
+Ignore ALSA Warnings:
+
+If your audio devices are functioning correctly despite the warnings, you can usually ignore them. The warnings indicate that certain configuration files or control elements are missing, but this doesn’t necessarily affect normal operation.
