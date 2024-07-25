@@ -226,10 +226,30 @@ class ReSpeaker_Mic4:
         self.param_names_dict = []
 
         self.RESPEAKER_INDEX = self.find_device_and_channels()
+        self.HEADPHONES_INDEX = self.find_output_device()
         self.Set_Characterestics()
         self.Initial_parameter_set()
         self.Write_initial_Parameters()
+    def find_output_device(self):
+        self.p = pyaudio.PyAudio()
+        target_name = "bcm2835 Headphones"
+        target_index = None
 
+        for i in range(self.p.get_device_count()):
+            device_info = self.p.get_device_info_by_index(i)
+            device_name = device_info.get('name')
+            if target_name in device_name:
+                target_index = i
+                break  # Exit the loop if a match is found
+
+        if target_index is not None:
+            print(f"{target_name}: found at index {target_index}")
+            self.p.terminate()
+            return target_index
+        else:
+            print(f"{target_name}': not found")
+            self.p.terminate()
+            return False
     def Initial_parameter_set(self):        ##################
         #GAIN
         ##################
