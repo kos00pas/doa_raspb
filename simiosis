@@ -10,7 +10,8 @@ ls -l /home/kos00pas/Documents/new_start/doa_raspb
 ** or cange permissions 
 sudo visudo
 kos00pas ALL=(ALL) NOPASSWD: /usr/bin/chrt -f 99 /home/kos00pas/doa_env/bin/python /home/kos00pas/Documents/new_start_2/doa_raspb/code/main.py
-
+Now, you can run your command without needing to enter a password:
+sudo chrt -f 99 /home/kos00pas/doa_env/bin/python /home/kos00pas/Documents/new_start_2/doa_raspb/code/main.py
 
 sudo nano /etc/asound.conf
 
