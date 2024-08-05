@@ -1,4 +1,0 @@
- source doa_env/bin/activate
- cd Desktop/doa_raspb/code_2
-python main.py 2>/dev/null
-
