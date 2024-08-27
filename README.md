@@ -74,12 +74,12 @@ cd doa_raspb
 ```bash
 sudo apt-get update
 sudo pip install pyusb click
+#or
+sudo apt install python3-usb python3-click
+
 git clone https://github.com/respeaker/usb_4_mic_array.git
 cd usb_4_mic_array
 
-A. sudo python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
-or
-B.sudo python dfu.py --download 1_channel_firmware.bin # if you want to use 1 channel,then the command should be like:
 
 ```
 
