@@ -64,6 +64,10 @@ If you want to run them with anaconda then :
 conda env create -f doa.yaml
 conda activate doa
 ```
+
+git clone https://github.com/kos00pas/doa_raspb.git
+cd doa_respb
+
 4. For the first time 
 ```bash
 sudo apt-get update
@@ -82,7 +86,6 @@ B.sudo python dfu.py --download 1_channel_firmware.bin # if you want to use 1 ch
 4. For every time 
 ```bash
 source /home/<user>/doa_env/bin/activate
-https://github.com/kos00pas/doa_raspb.git
 cd <path_to>/doa_raspb/code_3
 python main.py
 ```
