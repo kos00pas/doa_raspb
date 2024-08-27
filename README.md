@@ -31,6 +31,9 @@ sudo apt install pulseaudio
 sudo apt install python3-venv
 python3 -m venv doa_env
 source  /home/<user>/doa_env/bin/activate
+(doa_env) pi@raspberrypi:~ $ python --version
+>>Python 3.11.2
+
 ```
 3. Install Python Packages
 ```bash
@@ -49,6 +52,7 @@ pip install --verbose scipy==1.13.1
 pip install --verbose scikit-learn==1.4.0
 pip install --verbose matplotlib==3.8.2
 pip install --verbose librosa==0.10.1
+pip install --verbose tflite-runtime==2.14.0
 
 ```
 problem with pyaudio -> sudo apt install python3-pyaudio 
