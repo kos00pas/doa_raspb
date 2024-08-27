@@ -122,7 +122,16 @@ Traceback (most recent call last):
     raise USBError(_strerror(ret), ret, _libusb_errno[ret])
 usb.core.USBError: [Errno 13] Access denied (insufficient permissions)
 ```
+SOlution :
+```bash
+sudo nano /etc/udev/rules.d/99-respeaker.rules
+add -> SUBSYSTEM=="usb", ATTR{idVendor}=="2886", ATTR{idProduct}=="0018", MODE="0666"
+save& exit
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+sudo reboot
 
+```
 ## Functionality 
 When you run the code then you can:
 - Adjust the parameters of ReSpeaker Mic Array v2.0 to adjust the way that device 'listen'
