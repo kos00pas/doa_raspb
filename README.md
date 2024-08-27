@@ -91,6 +91,37 @@ source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb/code_3
 python main.py
 ```
+7. if find this error:
+```bash
+Traceback (most recent call last):
+  File "/home/pi/Desktop/doa_raspb/code_3/main.py", line 20, in <module>
+    resp4=resp.ReSpeaker_Mic4( ) #1
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Desktop/doa_raspb/code_3/ReSpeaker_Mic4.py", line 232, in __init__
+    self.Write_initial_Parameters()
+  File "/home/pi/Desktop/doa_raspb/code_3/ReSpeaker_Mic4.py", line 449, in Write_initial_Parameters
+    self.write_param('AGCTIME',
+  File "/home/pi/Desktop/doa_raspb/code_3/ReSpeaker_Mic4.py", line 535, in write_param
+    Mic_tuning.write(param, argums)
+  File "/home/pi/Desktop/doa_raspb/code_3/ReSpeaker_Mic4.py", line 165, in write
+    self.dev.ctrl_transfer(
+  File "/home/pi/doa_env/lib/python3.11/site-packages/usb/core.py", line 1071, in ctrl_transfer
+    self._ctx.managed_open()
+  File "/home/pi/doa_env/lib/python3.11/site-packages/usb/core.py", line 113, in wrapper
+    return f(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/doa_env/lib/python3.11/site-packages/usb/core.py", line 131, in managed_open
+    self.handle = self.backend.open_device(self.dev)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/doa_env/lib/python3.11/site-packages/usb/backend/libusb1.py", line 804, in open_device
+    return _DeviceHandle(dev)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/pi/doa_env/lib/python3.11/site-packages/usb/backend/libusb1.py", line 652, in __init__
+    _check(_lib.libusb_open(self.devid, byref(self.handle)))
+  File "/home/pi/doa_env/lib/python3.11/site-packages/usb/backend/libusb1.py", line 604, in _check
+    raise USBError(_strerror(ret), ret, _libusb_errno[ret])
+usb.core.USBError: [Errno 13] Access denied (insufficient permissions)
+```
 
 ## Functionality 
 When you run the code then you can:
