@@ -64,11 +64,13 @@ If you want to run them with anaconda then :
 conda env create -f doa.yaml
 conda activate doa
 ```
-
+4. For the first time
+```bash
 git clone https://github.com/kos00pas/doa_raspb.git
-cd doa_respb
+cd doa_raspb
+```
 
-4. For the first time 
+5. For the first time 
 ```bash
 sudo apt-get update
 sudo pip install pyusb click
@@ -83,7 +85,7 @@ B.sudo python dfu.py --download 1_channel_firmware.bin # if you want to use 1 ch
 
 
 
-4. For every time 
+6. For every time 
 ```bash
 source /home/<user>/doa_env/bin/activate
 cd <path_to>/doa_raspb/code_3
