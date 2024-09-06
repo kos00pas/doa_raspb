@@ -81,7 +81,8 @@ sudo apt install python3-usb python3-click
 git clone https://github.com/respeaker/usb_4_mic_array.git
 cd usb_4_mic_array
 #Plug in Respeaker  
-sudo python dfu.py --download 6_channels_firmware.bin  # The 6 channels version 
+sudo python dfu.py --download 6_channels_firmware.bin  # The 6 channels version
+cd ..
 
 
 
