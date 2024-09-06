@@ -59,13 +59,13 @@ pip install --verbose tflite-runtime==2.14.0
 problem with pyaudio -> sudo apt install python3-pyaudio 
 					 ->  sudo apt-get install portaudio19-dev
 
-3. Anaconda
+OR . Anaconda
 If you want to run them with anaconda then :   
 ```bash 
 conda env create -f doa.yaml
 conda activate doa
 ```
-4. For the first time
+3. For the first time
 ```bash
 git clone https://github.com/kos00pas/doa_raspb.git
 cd doa_raspb
