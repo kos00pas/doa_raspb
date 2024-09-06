@@ -31,13 +31,14 @@ sudo apt install pulseaudio
 sudo apt install python3-venv
 python3 -m venv doa_env
 source  /home/<user>/doa_env/bin/activate
-(doa_env) pi@raspberrypi:~ $ python --version
+python --version
 >>Python 3.11.2
 
 ```
 3. Install Python Packages
+4. ** if you are in windows, prefer to use conda based on compatibilities issues 
+
 ```bash
-** if you are in windows, prefer to use conda based on compatibilities issues 
 pip install pyusb keyboard sounddevice PyAudio click
 pip install audioread==2.1.9 joblib==1.2.0
 pip install llvmlite==0.43.0 numba==0.60.0 decorator==5.1.1 soundfile==0.12.1 resampy==0.3.1
